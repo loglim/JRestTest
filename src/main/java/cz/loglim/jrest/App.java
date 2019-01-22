@@ -11,18 +11,15 @@ import java.util.logging.Logger;
 public class App {
 
     public static void main(String[] args) {
-
         System.out.println("Server starting...");
         Server server = new Server(8080);
-
         ServletContextHandler ctx = new ServletContextHandler(ServletContextHandler.NO_SESSIONS);
-
         ctx.setContextPath("/");
         server.setHandler(ctx);
 
-        ServletHolder serHol = ctx.addServlet(ServletContainer.class, "/api/v1/*");
-        serHol.setInitOrder(1);
-        serHol.setInitParameter("jersey.config.server.provider.packages", "cz.loglim.jrest.res");
+        ServletHolder sh = ctx.addServlet(ServletContainer.class, "/api/v1/*");
+        sh.setInitOrder(1);
+        sh.setInitParameter("jersey.config.server.provider.packages", "cz.loglim.jrest.res");
 
         try {
             server.start();

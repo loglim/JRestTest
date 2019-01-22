@@ -22,24 +22,14 @@ public class Api {
     @Produces(MediaType.APPLICATION_JSON) //alternatively @Produces("application/json") - TODO: Measure performance impact
     public Item getItem(@PathParam("id") int id){
         Item item = DAO.getItem(id);
-
-        if(item == null) {
-            return new Item();
-        }
-        else {
-            return item;
-        }
+        return item == null ? new Item() : item;
     }
 
     @POST
     @Path("/create")
     @Consumes("application/json")
     public Response addItem(Item item){
-        item.setName(item.getName());
-        item.setPrice(item.getPrice());
-
-        DAO.addItem(item);
-
+        item.setId(null);
         return DAO.addItem(item) ? Response.ok().build() : Response.status(Response.Status.BAD_REQUEST).build();
     }
 

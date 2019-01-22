@@ -7,14 +7,14 @@ import javax.persistence.*;
 public class Item {
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     protected Long id;
 
-    @Column(name = "Price", nullable = false)
+    @Column(name = "price", nullable = false)
     protected double price;
 
-    @Column(name = "ItemName", nullable = false)
+    @Column(name = "name", nullable = false)
     protected String name;
 
     public Long getId() {

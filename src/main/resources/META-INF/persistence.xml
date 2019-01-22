@@ -10,7 +10,7 @@
         <class>cz.loglim.jrest.model.Item</class>
 
         <properties>
-            <property name="javax.persistence.jdbc.url" value="jdbc:mariadb://localhost:3306/mysql" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:mariadb://localhost:3306/api1" />
             <property name="javax.persistence.jdbc.user" value="api1"/>
             <property name="javax.persistence.jdbc.password" value="224466"/>
 
