@@ -1,5 +1,6 @@
 package cz.loglim.jrest;
 
+import cz.loglim.jrest.dao.ItemDao;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -17,20 +18,20 @@ public class App {
         ctx.setContextPath("/");
         server.setHandler(ctx);
 
-        ServletHolder sh = ctx.addServlet(ServletContainer.class, "/api/v1/*");
+        ServletHolder sh = ctx.addServlet(ServletContainer.class, "/api/*");
         sh.setInitOrder(1);
-        sh.setInitParameter("jersey.config.server.provider.packages", "cz.loglim.jrest.res");
+        sh.setInitParameter("jersey.config.server.provider.packages", "cz.loglim.jrest.controller");
 
         try {
             server.start();
             server.join();
         } catch (Exception ex) {
-            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(App.class.getName()).log(Level.ALL, null, ex);
         } finally {
             server.destroy();
         }
 
-        DAO.finish();
+        ItemDao.finish();
         System.out.println("Server finished!");
     }
 
