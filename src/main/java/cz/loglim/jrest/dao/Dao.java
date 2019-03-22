@@ -8,25 +8,27 @@ public class Dao {
 
     // Private
     private static EntityManagerFactory emf;
-    static EntityManager em;
 
-    public static void begin() {
+    public Dao() {
         if (emf == null) {
             emf = Persistence.createEntityManagerFactory("unit1");
         }
-        em = emf.createEntityManager();
-        em.getTransaction().begin();
     }
 
-    public static void end() {
-        if(em.isOpen() && em.getTransaction().isActive()) {
-            em.getTransaction().commit();
+    protected static EntityManager getNewEntityManager() {
+        if (emf == null) {
+            emf = Persistence.createEntityManagerFactory("unit1");
         }
-        em.close();
+
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        return em;
     }
 
-    public static void finish() {
-        emf.close();
+    protected static void close(EntityManager entityManager) {
+        if (entityManager.isOpen() && entityManager.getTransaction().isActive()) {
+            entityManager.getTransaction().commit();
+        }
+        entityManager.close();
     }
-
 }

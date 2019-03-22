@@ -8,65 +8,72 @@ import java.util.List;
 public class SupplyDao extends Dao {
 
     public static Supply get(long id) {
-        Supply Supply = null;
+        EntityManager em = getNewEntityManager();
+        Supply supply = null;
         try {
-            Supply = em.createQuery("from Supply where supply_id=:id", Supply.class)
+            supply = em.createQuery("from Supply where supply_id=:id", Supply.class)
                     .setParameter("id", id)
                     .getSingleResult();
         } catch (NoResultException ignored) {
         }
-        return Supply;
+        close(em);
+        return supply;
     }
 
     public static List<Supply> getAll() {
-        return em.createQuery("from Supply", Supply.class).getResultList();
+        EntityManager em = getNewEntityManager();
+        List<Supply> resultList = em.createQuery("from Supply", Supply.class).getResultList();
+        close(em);
+        return resultList;
     }
 
-    public static boolean add(Supply Supply) {
+    public static boolean add(Supply supply) {
+        EntityManager em = getNewEntityManager();
         boolean result = false;
         try {
-            em.persist(Supply);
+            em.persist(supply);
             em.getTransaction().commit();
             result = true;
         } catch (PersistenceException exception) {
             System.out.println(exception.getMessage());
         }
+        close(em);
         return result;
     }
 
-    public static boolean update(long id, Supply Supply) {
+    public static boolean update(long id, Supply supply) {
+        EntityManager em = getNewEntityManager();
         Supply old = get(id);
-        if(old != null) {
-            old.setItemId(Supply.getItemId());
-            old.setWarehouseId(Supply.getWarehouseId());
-            old.setQuantity(Supply.getQuantity());
-            boolean result = false;
+        boolean result = false;
+        if (old.getItemId() != null && old.getWarehouseId() != null) {
+            old.setItemId(supply.getItemId());
+            old.setWarehouseId(supply.getWarehouseId());
+            old.setQuantity(supply.getQuantity());
             try {
-                em.merge(Supply);
                 em.getTransaction().commit();
                 result = true;
             } catch (PersistenceException exception) {
                 System.out.println(exception.getMessage());
             }
-            return result;
         }
-        else {
-            return add(Supply);
-        }
+        close(em);
+        return result;
     }
 
     public static boolean delete(long id) {
-        Supply Supply = em.find(Supply.class, id);
+        EntityManager em = getNewEntityManager();
+        Supply supply = em.find(Supply.class, id);
         boolean result = false;
-        if (Supply != null) {
+        if (supply != null) {
             try {
-                em.remove(Supply);
+                em.remove(supply);
                 em.getTransaction().commit();
                 result = true;
             } catch (PersistenceException exception) {
                 System.out.println(exception.getMessage());
             }
         }
+        close(em);
         return result;
     }
 }
