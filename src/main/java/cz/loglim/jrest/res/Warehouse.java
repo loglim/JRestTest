@@ -1,7 +1,7 @@
 package cz.loglim.jrest.res;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "warehouses")
@@ -16,7 +16,7 @@ public class Warehouse {
     protected int capacity;
 
     @Column(name = "last_access", nullable = false)
-    protected Date lastAccess;
+    protected LocalDateTime lastAccess;
 
     public Long getId() {
         return id;
@@ -34,11 +34,11 @@ public class Warehouse {
         this.capacity = capacity;
     }
 
-    public Date getLastAccess() {
+    public LocalDateTime getLastAccess() {
         return lastAccess;
     }
 
-    public void setLastAccess(Date lastAccess) {
+    public void setLastAccess(LocalDateTime lastAccess) {
         this.lastAccess = lastAccess;
     }
 }
