@@ -5,15 +5,32 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.servlet.ServletContainer;
 
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class App {
 
     public static void main(String[] args) {
-        System.out.println("Server starting...");
-        Server server = new Server(new InetSocketAddress("127.0.0.1", 8080));
+        System.out.println("[JRestTest Server Application]");
+
+        InetSocketAddress address = null;
+        Scanner scanner = new Scanner(System.in);
+        while(address == null) {
+            System.out.println("Please enter target IPv4 address (and press ENTER):");
+            String ip = scanner.next();
+            try {
+                address = new InetSocketAddress(InetAddress.getByName(ip), 8080);
+            } catch (Exception e) {
+                System.out.println("Wrong IPv4 format \"***.***.***.***\"");
+                address = null;
+            }
+        }
+
+        System.out.println("Server is running at " + address.toString());
+        Server server = new Server(address);
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.NO_SESSIONS);
         context.setContextPath("/");
         server.setHandler(context);
