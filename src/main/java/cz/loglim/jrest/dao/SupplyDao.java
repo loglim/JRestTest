@@ -50,6 +50,7 @@ public class SupplyDao extends Dao {
             old.setWarehouseId(supply.getWarehouseId());
             old.setQuantity(supply.getQuantity());
             try {
+                em.merge(old);
                 em.getTransaction().commit();
                 result = true;
             } catch (PersistenceException exception) {

@@ -49,6 +49,7 @@ public class WarehouseDao extends Dao {
             old.setCapacity(warehouse.getCapacity());
             old.setLastAccess(warehouse.getLastAccess());
             try {
+                em.merge(old);
                 em.getTransaction().commit();
                 result = true;
             } catch (PersistenceException exception) {

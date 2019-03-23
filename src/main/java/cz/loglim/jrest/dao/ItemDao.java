@@ -50,9 +50,11 @@ public class ItemDao extends Dao {
         Item old = get(id);
         boolean result = false;
         if (old.getId() != null) {
-            old.setPrice(item.getPrice());
             old.setName(item.getName());
+            old.setPrice(item.getPrice());
+            old.setSize(item.getSize());
             try {
+                em.merge(old);
                 em.getTransaction().commit();
                 result = true;
             } catch (PersistenceException exception) {
