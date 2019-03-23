@@ -31,7 +31,7 @@ public class App {
             server.destroy();
         }
 
-        System.out.println("Server thread finsihed!");
+        System.out.println("Server thread finished!");
     }
 
 }
